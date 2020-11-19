@@ -1491,6 +1491,22 @@ struct NormalizeList<IntList<Head, Tail>, false, AliquotLength>
 static const int g_ieeBias = 0x3FF;
 static const int g_mantisSizeInBits = 11;
 
+template<bool positiveShift, unsigned long long lData, unsigned long long lPow>
+struct CalcAliquot
+{
+};
+template<unsigned long long lData, unsigned long long lPow>
+struct CalcAliquot<true, lData, lPow>
+{
+    const static unsigned long long Result = lData * lPow;
+};
+template<unsigned long long lData, unsigned long long lPow>
+struct CalcAliquot<false, lData, lPow>
+{
+    const static unsigned long long Result = lData / lPow;
+};
+
+
 // Double class represents a double-precision floating-point format value:
 //    value = lInputData*10^iShiftValue
 template<long long lInputData, long long iShiftValue>
@@ -1498,7 +1514,7 @@ struct Double
 {
     const static unsigned long long lData = lInputData > 0 ? lInputData : 0LL - lInputData;
     const static unsigned long long lPow = Power<10, Abs<iShiftValue>::iResult>::lResult;
-    const static unsigned long long lAliquot = (iShiftValue > 0) ? lData * lPow : lData / lPow;
+    const static unsigned long long lAliquot = CalcAliquot<(iShiftValue>0),lData, lPow>::Result;  
     const static unsigned long long lFractional = (iShiftValue > 0) ? 0 : lData % lPow;
 
     typedef typename ListBuilderSkipFrontZero<0x8000000000000000ULL, lAliquot>::Result  AliquotBinList_type;
@@ -1532,9 +1548,12 @@ struct Double
     }
 };
 
-
 inline bool AreEqual(double d1, double d2, double eps = 0.000000001)
 {
+    if (d1 == d2)
+    {
+        return true;
+    }
     return ((d1 + eps) > d2 && (d1 - eps) < d2);
 }
 

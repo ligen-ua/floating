@@ -11,7 +11,7 @@ extern bool AllSucceeded;
 template<class DoubleType>
 struct Test
 {
-    static bool DoTest(double valueToCompare, double eps = 0.000000001)
+    static bool DoTest(double valueToCompare, double eps = 0.00000000001)
     {
         double doubleToCheck = DoubleType::GetDouble();
         bool result = AreEqual(doubleToCheck, valueToCompare, eps);
