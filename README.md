@@ -3,10 +3,11 @@
 This is a fun project that allows C ++ developers to manipulate floating point constants (IEEE 754) at compile time.
 
 All the functionality is here:
-> src\floating\libFloatingMain.hpp
+> src/floating/libFloatingMain.hpp
 
 See lff::Double<param1, param2> template which represents a double-precision floating-point value:
 > value = param1*(10^param2)
+
 Where ^ is the exponentiation operator.
 
 ## How to use:
@@ -24,3 +25,7 @@ int main()
 }
 ```
 
+## Currently supports: 
+* VS 2017, VS 2019
+See:
+src/floating.sln
