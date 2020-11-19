@@ -1550,11 +1550,7 @@ struct Double
 
 inline bool AreEqual(double d1, double d2, double eps = 0.000000001)
 {
-    if (d1 == d2)
-    {
-        return true;
-    }
-    return ((d1 + eps) > d2 && (d1 - eps) < d2);
+    return ((d1 + eps) >= d2 && (d1 - eps) <= d2);
 }
 
 } // namespace
