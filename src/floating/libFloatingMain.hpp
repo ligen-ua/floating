@@ -1152,9 +1152,10 @@ struct ListBuilderSkipFrontZero
 template<long long value, long long mask>
 struct DecListBuilderImpl
 {
-    static const void PrintSelf()
+    template<class StreamType>
+    static const void PrintSelf(StreamType& stream)
     {
-        std::cout<<mask;
+        stream<<mask;
     }
     static const long long bitValue = 10*value/mask;
     typedef IntList<bitValue, typename DecListBuilderImpl<value - mask*bitValue/10, mask/10>::Result> Result;
@@ -1182,7 +1183,8 @@ struct DecListBuilder
 template<class List>
 struct PrintList
 {
-    static void Print()
+    template<class StreamType>
+    static void Print(StreamType&)
     {
     }
 };
@@ -1190,10 +1192,11 @@ struct PrintList
 template<long long Head, class Tail>
 struct PrintList<IntList<Head, Tail> >
 {
-    static void Print()
+    template<class StreamType>
+    static void Print(StreamType& stream)
     {
-        std::cout<<Head<<"|";
-        PrintList<Tail>::Print();
+        stream<<Head<<"|";
+        PrintList<Tail>::Print(stream);
     }
 };
 
@@ -1528,7 +1531,7 @@ struct Double
 
     typedef typename ConcatLists<AliquotBinList_type, FractionalBinList_type>::Result ConcatenatedList_type;
 
-    typedef typename NormalizeList<ConcatenatedList_type, AliquotIsZero, AliquotLength> NormalizedData_type;
+    typedef NormalizeList<ConcatenatedList_type, AliquotIsZero, AliquotLength> NormalizedData_type;
 
     typedef typename NormalizedData_type::List_type  FinalMantiss_type;
     static const int Exponent = NormalizedData_type::Exponent;
@@ -1536,7 +1539,7 @@ struct Double
     typedef typename ListBuilder<(1ULL<<(g_mantisSizeInBits-1)), Exponent + g_ieeBias>::Result  FinalExponentBinList_type;
     
     
-    typedef typename IntList<((lInputData < 0) ? 1 : 0), typename ConcatLists<FinalExponentBinList_type, FinalMantiss_type>::Result> FinalList_type;
+    typedef IntList<((lInputData < 0) ? 1 : 0), typename ConcatLists<FinalExponentBinList_type, FinalMantiss_type>::Result> FinalList_type;
 
     const static FinalIntegral_type IntegralValue = ToBinary<FinalList_type>::Result;
 
@@ -1550,11 +1553,7 @@ struct Double
 
 inline bool AreEqual(double d1, double d2, double eps = 0.000000001)
 {
-    if (d1 == d2)
-    {
-        return true;
-    }
-    return ((d1 + eps) > d2 && (d1 - eps) < d2);
+    return ((d1 + eps) >= d2 && (d1 - eps) <= d2);
 }
 
 } // namespace

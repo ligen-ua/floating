@@ -24,10 +24,10 @@ struct Test
             AllSucceeded = false;
             std::cout << "[== ERROR ==]: "<< valueToCompare<<"\n";
             std::cout << "AliquotBinList_type: ";
-            PrintList<typename DoubleType::AliquotBinList_type>::Print();
+            PrintList<typename DoubleType::AliquotBinList_type>::Print(std::cout);
             std::cout << "\n";
             std::cout << "FractionalBinList_type: ";
-            PrintList<typename DoubleType::FractionalBinList_type>::Print();
+            PrintList<typename DoubleType::FractionalBinList_type>::Print(std::cout);
             std::cout << "\n";
             std::cout << "Exponent: ";
             std::cout << DoubleType::Exponent << "\n";
