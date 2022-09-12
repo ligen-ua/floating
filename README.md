@@ -25,7 +25,17 @@ int main()
 }
 ```
 
-## Currently supports: 
+## Currently supports:
+
+# Windows 
 * VS 2017, VS 2019
+
 See:
 src/floating.sln
+
+# Unix/Linux
+Use:
+```
+cmake-build.sh
+cmake-test.sh
+```
