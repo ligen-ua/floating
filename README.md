@@ -1,3 +1,5 @@
+WARING: It has always been a rather joke-only project, but after new non-type template parameters introduced by C++20, it doesn't have much sense.
+
 # libFloating
 
 This is a fun project that allows C ++ developers to manipulate floating point constants (IEEE 754) at compile time.
